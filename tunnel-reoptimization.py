@@ -48,7 +48,7 @@ def disable_reoptimization(cgx, site_name):
     for site in cgx.get.sites().cgx_content['items']:
         if site["element_cluster_role"] == "SPOKE":
             site_n2id[site["id"]] = site["name"]
-            if site_name == "All":
+            if site_name == "All-Sites":
                 site_list.append(site["id"])
             elif site_name == site["name"]:
                 site_list.append(site["id"])
@@ -86,7 +86,7 @@ def enable_reoptimization(cgx, site_name):
     for site in cgx.get.sites().cgx_content['items']:
         if site["element_cluster_role"] == "SPOKE":
             site_n2id[site["id"]] = site["name"]
-            if site_name == "All":
+            if site_name == "All-Sites":
                 site_list.append(site["id"])
             elif site_name == site["name"]:
                 site_list.append(site["id"])
