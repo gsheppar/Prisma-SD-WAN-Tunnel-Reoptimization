@@ -52,31 +52,25 @@ def disable_reoptimization(cgx, site_name):
                 site_list.append(site["id"])
     
     if site_list:
-        data = {"query_params":{"site_id": {"in": [site["id"]]}}}
-        resp = cgx.post.element_query(data=data)
-        if resp.cgx_status:
-            elements = resp.cgx_content.get("items", None)
-            data = {"name": "TunnelManager", "namespace": "tunnelmgr/tunnelreopt", "entity_id": "4501", "disabled": False, "conf": {"disable_reopt": True}}
-            if elements:
-                for element in elements:
-                    resp_text = cgx.get.element_extensions(site_id = element["site_id"], element_id = element["id"]).text
-                    resp_data = json.loads(resp_text)
-                    found = False
-                    for item in resp_data["items"]:
-                        if item["name"] == "TunnelManager":
-                            if item["conf"]["disable_reopt"]:
-                                found = True
-                    if found:
-                        print("INFO: Tunnel reoptimization already disabled on {} {}".format(site_n2id[element["site_id"]],element["name"]))
+        for element in cgx.get.elements().cgx_content['items']:
+            if element["site_id"] in site_list:
+                resp_text = cgx.get.element_extensions(site_id = element["site_id"], element_id = element["id"]).text
+                resp_data = json.loads(resp_text)
+                found = False
+                for item in resp_data["items"]:
+                    if item["name"] == "TunnelManager":
+                        if item["conf"]["disable_reopt"]:
+                            found = True
+                if found:
+                    print("INFO: Tunnel reoptimization already disabled on {} {}".format(site_n2id[element["site_id"]],element["name"]))
+                else:
+                    data = {"name": "TunnelManager", "namespace": "tunnelmgr/tunnelreopt", "entity_id": "4501", "disabled": False, "conf": {"disable_reopt": True}}
+                    resp = cgx.post.element_extensions(site_id = element["site_id"], element_id = element["id"], data=data)
+                    if resp.cgx_status:
+                        print("INFO: Tunnel reoptimization is disabled on {} {}".format(site_n2id[element["site_id"]],element["name"]))
                     else:
-                        resp = cgx.post.element_extensions(site_id = element["site_id"], element_id = element["id"], data=data)
-                        if resp.cgx_status:
-                            print("INFO: Tunnel reoptimization is disabled on {} {}".format(site_n2id[element["site_id"]],element["name"]))
-                        else:
-                            print("Error: Could not set tunnel reoptimization to disabled on {} {}".format(site_n2id[element["site_id"]],element["name"]))
-                            cloudgenix.jd_detailed(resp)
-            else:
-                print("INFO: No elements found on site {}".format(site_n2id[element["site_id"]]))
+                        print("Error: Could not set tunnel reoptimization to disabled on {} {}".format(site_n2id[element["site_id"]],element["name"]))
+                        cloudgenix.jd_detailed(resp)
     else:
         print("No sites found by the name " + site_name)
     
@@ -94,29 +88,24 @@ def enable_reoptimization(cgx, site_name):
                 site_list.append(site["id"])
     
     if site_list:
-        data = {"query_params":{"site_id": {"in": [site["id"]]}}}
-        resp = cgx.post.element_query(data=data)
-        if resp.cgx_status:
-            elements = resp.cgx_content.get("items", None)
-            if elements:
-                for element in elements:
-                    resp_text = cgx.get.element_extensions(site_id = element["site_id"], element_id = element["id"]).text
-                    resp_data = json.loads(resp_text)
-                    found = False
-                    for item in resp_data["items"]:
-                        if item["name"] == "TunnelManager":
-                            if item["conf"]["disable_reopt"]:
-                                found = True
-                                resp = cgx.delete.element_extensions(extension_id=item["id"],site_id = element["site_id"], element_id = element["id"])
-                                if resp.cgx_status:
-                                    print("INFO: Tunnel reoptimization is enabled on {} {}".format(site_n2id[element["site_id"]],element["name"]))
-                                else:
-                                    print("Error: Could not set tunnel reoptimization to enabled on {} {}".format(site_n2id[element["site_id"]],element["name"]))
-                                    cloudgenix.jd_detailed(resp)
-                    if not found:
-                        print("INFO: Tunnel reoptimization is already enabled on {} {}".format(site_n2id[element["site_id"]],element["name"]))
-            else:
-                print("INFO: No elements found on site {}".format(site_n2id[element["site_id"]]))
+        for element in cgx.get.elements().cgx_content['items']:
+            if element["site_id"] in site_list:
+                resp_text = cgx.get.element_extensions(site_id = element["site_id"], element_id = element["id"]).text
+                resp_data = json.loads(resp_text)
+                found = False
+                for item in resp_data["items"]:
+                    if item["name"] == "TunnelManager":
+                        if item["conf"]["disable_reopt"]:
+                            found = True
+                            resp = cgx.delete.element_extensions(extension_id=item["id"],site_id = element["site_id"], element_id = element["id"])
+                            if resp.cgx_status:
+                                print("INFO: Tunnel reoptimization is enabled on {} {}".format(site_n2id[element["site_id"]],element["name"]))
+                            else:
+                                print("Error: Could not set tunnel reoptimization to enabled on {} {}".format(site_n2id[element["site_id"]],element["name"]))
+                                cloudgenix.jd_detailed(resp)
+                if not found:
+                    print("INFO: Tunnel reoptimization is already enabled on {} {}".format(site_n2id[element["site_id"]],element["name"]))
+        
                     
     else:
         print("No sites found by the name " + site_name)
