@@ -123,7 +123,7 @@ def go():
     # Allow Controller modification and debug level sets.
     config_group = parser.add_argument_group('Name', 'These options change how the configuration is loaded.')
     config_group.add_argument("--site", "-S", help="Site Name", required=True, default=None)
-    config_group.add_argument("--reoptimization", "-R", help="Tunnel Reoptimization", action='store_false')
+    config_group.add_argument("--reoptimization", "-R", help="Enable Tunnel Reoptimization", action='store_false')
     controller_group = parser.add_argument_group('API', 'These options change how this program connects to the API.')
     controller_group.add_argument("--controller", "-C",
                                   help="Controller URI, ex. "
