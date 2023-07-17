@@ -61,6 +61,7 @@ def disable_reoptimization(cgx, site_name):
                 resp_data = json.loads(resp_text)
                 found = False
                 for item in resp_data["items"]:
+                    print(item["name"])
                     if item["name"] == "TunnelManager":
                         if item["conf"]["disable_reopt"]:
                             found = True
@@ -123,7 +124,7 @@ def go():
     # Allow Controller modification and debug level sets.
     config_group = parser.add_argument_group('Name', 'These options change how the configuration is loaded.')
     config_group.add_argument("--site", "-S", help="Site Name", required=True, default=None)
-    config_group.add_argument("--reoptimization", "-R", help="Enable Tunnel Reoptimization", action='store_false')
+    config_group.add_argument("--reoptimization", "-R", help="Enable Tunnel Reoptimization", action='store_true')
     controller_group = parser.add_argument_group('API', 'These options change how this program connects to the API.')
     controller_group.add_argument("--controller", "-C",
                                   help="Controller URI, ex. "
@@ -184,12 +185,13 @@ def go():
     tenant_str = "".join(x for x in cgx_session.tenant_name if x.isalnum()).lower()
     cgx = cgx_session
     
+    
     site_name = args["site"]
     reoptimization = args["reoptimization"]
     if reoptimization:
-        disable_reoptimization(cgx, site_name) 
-    else:
         enable_reoptimization(cgx, site_name) 
+    else:
+        disable_reoptimization(cgx, site_name)  
     # end of script, run logout to clear session.
     cgx_session.get.logout()
 
