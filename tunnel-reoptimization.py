@@ -61,7 +61,6 @@ def disable_reoptimization(cgx, site_name):
                 resp_data = json.loads(resp_text)
                 found = False
                 for item in resp_data["items"]:
-                    print(item["name"])
                     if item["name"] == "TunnelManager":
                         if item["conf"]["disable_reopt"]:
                             found = True
