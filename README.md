@@ -19,11 +19,11 @@ MIT
  1. ./tunnel-reoptimization.py -S Branch-Site-4
       - Will disable tunnel reoptimization on all elements part of Branch-Site-4
  2. ./tunnel-reoptimization.py -R -S Branch-Site-4
-      - Will disable tunnel reoptimization on all elements part of Branch-Site-4
+      - Will enable tunnel reoptimization on all elements part of Branch-Site-4
  3. ./tunnel-reoptimization.py -S All-Sites
       - Will disable tunnel reoptimization on all elements part of a branch site
  4. ./tunnel-reoptimization.py -R -S All-Sites
-      - Will disable tunnel reoptimization on all elements part of a branch site
+      - Will enable tunnel reoptimization on all elements part of a branch site
 	  
 
 ### Caveats and known issues:
