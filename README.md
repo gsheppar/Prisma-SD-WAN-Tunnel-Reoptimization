@@ -17,13 +17,13 @@ MIT
  Please generate your API token and add it to cloudgenix_settings.py
 
  1. ./tunnel-reoptimization.py -S Branch-Site-4
-      - Will disable tunnel reoptimization on all elements part of Branch-Site-4
+      - Will disable tunnel reoptimization on Branch-Site-4
  2. ./tunnel-reoptimization.py -R -S Branch-Site-4
-      - Will enable tunnel reoptimization on all elements part of Branch-Site-4
+      - Will enable tunnel reoptimization on Branch-Site-4
  3. ./tunnel-reoptimization.py -S All-Sites
-      - Will disable tunnel reoptimization on all elements part of a branch site
+      - Will disable tunnel reoptimization on all sites
  4. ./tunnel-reoptimization.py -R -S All-Sites
-      - Will enable tunnel reoptimization on all elements part of a branch site
+      - Will enable tunnel reoptimization on all sites
 	  
 
 ### Caveats and known issues:
