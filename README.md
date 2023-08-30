@@ -1,5 +1,5 @@
 # Prisma SD-WAN Tunnel Reoptimization (Preview)
-The purpose of this script to set an element extension to enable or disable tunnel reoptimization
+The purpose of this script to set an site extension to enable or disable tunnel reoptimization
 
 #### License
 MIT
